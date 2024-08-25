@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps API</title>
+    <style>
+        /* Reset margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Layout container */
+        .container {
+            display: flex;
+            height: 100vh; /* Full screen height */
+        }
+
+        /* Locations list styling */
+        #locations-list {
+            width: 30%; /* Take 30% of the screen width */
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #ddd; /* Separator between list and map */
+        }
+
+        /* Map styling */
+        #map {
+            width: 70%; /* Take 70% of the screen width */
+            height: 100%;
+        }
+
+        .location {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .location h3 {
+            margin-bottom: 10px;
+        }
+
+        .location button {
+            margin-right: 10px;
+            padding: 10px 15px;
+            border: none;
+            background-color: #dc3545;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .location button:last-child {
+            background-color: #007bff;
+        }
+    </style>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClo72-QYbJX8072gxJYySPciIlRlXZ4Uo"></script>
+</head>
+<body>
+    <div class="container">
+        <div id="locations-list" class="locations">
+            <div class="location">
+              <h3>Dialogika Yogyakarta</h3>
+              <p>Jl. Pandega Marta No.39, Manggung, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281</p>
+              <button onclick="window.open('https://maps.app.goo.gl/2DVPkJxijU4JX9rq6', '_blank')">Tunjuk Arah</button>
+              <button onclick="window.open('tel:+6285780007799', '_blank')">Telepon</button>
+              
+            </div>
+            <div class="location">
+                <h3>Dialogika Bintaro</h3>
+                <p>Jl. W R Supratman No.8, Pd. Karya, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15225</p>
+                <button onclick="window.open('https://maps.app.goo.gl/z5mCTHc42qKezpaT8', '_blank')">Tunjuk Arah</button>
+                <button onclick="window.open('tel:+6285780007799', '_blank')">Telepon</button>
+            </div>
+            <div class="location">
+              <h3>Dialogika Bintaro</h3>
+              <p>Jl. W R Supratman No.8, Pd. Karya, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15225</p>
+              <button onclick="window.open('https://maps.app.goo.gl/z5mCTHc42qKezpaT8', '_blank')">Tunjuk Arah</button>
+              <button onclick="window.open('tel:+6285780007799', '_blank')">Telepon</button>
+          </div>
+        </div>
+
+        <div id="map"></div>
+    </div>
+
+    <script>
+        let map; // Variabel map yang bisa diakses oleh semua fungsi
+
+        function initMap() {
+            var indonesiaBounds = {
+                north: 6.0,
+                south: -11.0,
+                east: 141.0,
+                west: 95.0
+            };
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                bounds: indonesiaBounds,
+                zoom: 5.7,
+                center: {
+                    lat: -0.7893, // Indonesia
+                    lng: 113.9213
+                }
+            });
+
+            var markers = [
+                { position: { lat: -6.2744667244728305, lng: 106.74480162728689 }, title: 'Bintaro', icon: 'dialogika.png' },
+                { position: { lat: -7.755221081668142, lng: 110.37858728628734 }, title: 'Yogyakarta', icon: 'dialogika.png' },
+                { position: { lat: -7.543294034513686, lng: 110.76120065889558 }, title: 'Solo', icon: 'dialogika.png' },
+                // Marker tambahan lainnya bisa ditambahkan di sini
+            ];
+
+            var currentZoom = 6; // Awal tingkat zoom
+
+            markers.forEach(function(markerData) {
+                var gMarker = new google.maps.Marker({
+                    position: markerData.position,
+                    map: map,
+                    title: markerData.title,
+                    icon: {
+                        url: markerData.icon,
+                        scaledSize: new google.maps.Size(60, 60) // Ukuran ikon (piksel)
+                    }
+                });
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: markerData.title // Nama marker
+                });
+
+                gMarker.addListener('click', function() {
+                    var newZoom = currentZoom + 2;
+                    map.setZoom(newZoom); // Mengatur tingkat zoom baru
+                    map.setCenter(gMarker.getPosition()); // Memindahkan pusat peta ke marker yang diklik
+                    currentZoom = newZoom; // Memperbarui tingkat zoom saat ini
+
+                    // Menampilkan InfoWindow
+                    infoWindow.open(map, gMarker);
+                });
+            });
+        }
+
+        function goToLocation(lat, lng) {
+            var location = new google.maps.LatLng(lat, lng);
+            map.setZoom(15); // Zoom ke lokasi
+            map.setCenter(location); // Pusatkan peta ke lokasi
+        }
+
+        // Panggil initMap saat halaman dimuat
+        window.onload = initMap;
+    </script>
+</body>
+</html>
+

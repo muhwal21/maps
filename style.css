@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    text-align: center;
+}
+
+#map {
+    width: 80%;
+    height: 500px;
+    margin: 0 auto;
+}
+
+#locations-list {
+  width: 30%; /* Lebar daftar lokasi */
+  float: left; /* Posisi di sebelah kiri */
+  padding: 10px;
+}
+
+.location {
+  background-color: white;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.location h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.location p {
+  margin: 0.5em 0;
+}
+
+.location button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
